@@ -4,7 +4,7 @@
 
 export const ME = {
   name:     'Youssef Abotaleb',
-  photo:    '/portfolio/me.jpeg',
+  photo:    `${import.meta.env.BASE_URL}me.jpeg`,
 
   // Typewriter roles shown in the Hero section
   roles: [
