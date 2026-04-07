@@ -1,0 +1,220 @@
+@import "tailwindcss";
+
+/* ─── CSS Variables ─────────────────────────────────────────── */
+:root {
+  --color-bg: #050510;
+  --color-accent: #00d4ff;
+  --color-purple: #7c3aed;
+  --color-pink: #ec4899;
+  --gradient: linear-gradient(135deg, #7c3aed, #00d4ff);
+  --gradient-text: linear-gradient(135deg, #7c3aed, #ec4899, #00d4ff);
+}
+
+/* ─── Custom cursor (desktop only) ─────────────────────────── */
+@media (pointer: fine) {
+  *, *::before, *::after { cursor: none !important; }
+}
+
+/* ─── Base ──────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-bg);
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background-color: var(--color-bg);
+}
+
+/* ─── Scroll Container ──────────────────────────────────────── */
+.scroll-container {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+.snap-section {
+  scroll-snap-align: start;
+  min-height: 100vh;
+}
+
+/* ─── Gradient Text ─────────────────────────────────────────── */
+.gradient-text {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-blue {
+  background: linear-gradient(135deg, #7c3aed, #00d4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Gradient Button ───────────────────────────────────────── */
+.btn-gradient {
+  background: linear-gradient(135deg, #7c3aed, #00d4ff);
+  position: relative;
+  z-index: 0;
+  transition: opacity 0.3s ease, transform 0.2s ease;
+}
+.btn-gradient:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  border: 1.5px solid rgba(0, 212, 255, 0.5);
+  color: #00d4ff;
+  transition: border-color 0.3s ease, background 0.3s ease, transform 0.2s ease;
+}
+.btn-outline:hover {
+  border-color: #00d4ff;
+  background: rgba(0, 212, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+/* ─── Glowing Orbs ──────────────────────────────────────────── */
+@keyframes float-orb-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(80px, -100px) scale(1.15); }
+  66%       { transform: translate(-50px, 60px) scale(0.9); }
+}
+
+@keyframes float-orb-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(-70px, 80px) scale(1.1); }
+  66%       { transform: translate(60px, -50px) scale(0.95); }
+}
+
+@keyframes float-orb-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(50px, 60px) scale(0.9); }
+  66%       { transform: translate(-80px, -40px) scale(1.1); }
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.orb-1 {
+  width: 500px;
+  height: 500px;
+  background: #7c3aed;
+  top: -100px;
+  left: -100px;
+  animation: float-orb-1 18s ease-in-out infinite;
+}
+
+.orb-2 {
+  width: 400px;
+  height: 400px;
+  background: #00d4ff;
+  bottom: -80px;
+  right: -80px;
+  animation: float-orb-2 14s ease-in-out infinite;
+  animation-delay: -5s;
+}
+
+.orb-3 {
+  width: 350px;
+  height: 350px;
+  background: #ec4899;
+  top: 40%;
+  left: 50%;
+  animation: float-orb-3 20s ease-in-out infinite;
+  animation-delay: -10s;
+  opacity: 0.2;
+}
+
+/* ─── Typewriter cursor ─────────────────────────────────────── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1em;
+  background: #00d4ff;
+  margin-left: 4px;
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+}
+
+/* ─── Section heading underline ─────────────────────────────── */
+.section-heading::after {
+  content: '';
+  display: block;
+  margin-top: 0.5rem;
+  height: 3px;
+  width: 60px;
+  background: linear-gradient(135deg, #7c3aed, #00d4ff);
+  border-radius: 2px;
+}
+
+/* ─── Scrollbar (Projects horizontal) ───────────────────────── */
+.projects-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+.projects-scroll::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.05);
+  border-radius: 2px;
+}
+.projects-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #7c3aed, #00d4ff);
+  border-radius: 2px;
+}
+
+/* ─── Glass card ─────────────────────────────────────────────── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+}
+
+.glass-card:hover {
+  border-color: rgba(0, 212, 255, 0.2);
+}
+
+/* ─── Skill icon glow ────────────────────────────────────────── */
+.skill-icon {
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+.skill-icon:hover {
+  transform: translateY(-6px) scale(1.15);
+  filter: drop-shadow(0 0 12px currentColor);
+}
+
+/* ─── Navbar backdrop ────────────────────────────────────────── */
+.navbar-scrolled {
+  background: rgba(5, 5, 16, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ─── Bounce arrow ───────────────────────────────────────────── */
+@keyframes bounce-y {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(10px); }
+}
+.bounce-arrow {
+  animation: bounce-y 2s ease-in-out infinite;
+}
