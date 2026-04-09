@@ -8,7 +8,7 @@ function Photo() {
       initial={{ opacity: 0, x: -40 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.6, delay: 0.15 }}
-      className="flex justify-center"
+      className="flex justify-center pt-3"
     >
       <motion.div
         animate={{ y: [0, -10, 0] }}
