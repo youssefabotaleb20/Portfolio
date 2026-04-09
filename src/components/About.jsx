@@ -26,7 +26,7 @@ function Photo() {
         <div className="absolute inset-0 rounded-2xl p-[2px] bg-gradient-to-br from-purple-500 to-cyan-400">
           <div className="w-full h-full rounded-2xl overflow-hidden">
             <img
-              src="/portfolio/me.jpeg"
+              src={ME.photo}
               alt={ME.name}
               className="w-full h-full object-cover object-top"
               draggable={false}
