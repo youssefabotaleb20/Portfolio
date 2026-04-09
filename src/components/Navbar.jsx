@@ -66,25 +66,27 @@ export default function Navbar({ scrollContainer }) {
           ))}
         </ul>
 
-        {/* Desktop CTA */}
-        <a
-          href="#contact"
-          onClick={(e) => handleNavClick(e, '#contact')}
-          className="hidden md:inline-flex btn-gradient text-white text-sm font-semibold px-5 py-2 rounded-full cursor-pointer"
-        >
-          Hire Me
-        </a>
+        {/* CTA — visible on all screen sizes */}
+        <div className="flex items-center gap-3">
+          <a
+            href="#contact"
+            onClick={(e) => handleNavClick(e, '#contact')}
+            className="btn-gradient text-white text-sm font-semibold px-5 py-2 rounded-full cursor-pointer"
+          >
+            Hire Me
+          </a>
 
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden text-white p-2"
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
-        >
-          <div className={`w-5 h-0.5 bg-white mb-1.5 transition-all duration-300 ${open ? 'rotate-45 translate-y-2' : ''}`} />
-          <div className={`w-5 h-0.5 bg-white mb-1.5 transition-all duration-300 ${open ? 'opacity-0' : ''}`} />
-          <div className={`w-5 h-0.5 bg-white transition-all duration-300 ${open ? '-rotate-45 -translate-y-2' : ''}`} />
-        </button>
+          {/* Mobile hamburger */}
+          <button
+            className="md:hidden text-white p-2"
+            onClick={() => setOpen(!open)}
+            aria-label="Toggle menu"
+          >
+            <div className={`w-5 h-0.5 bg-white mb-1.5 transition-all duration-300 ${open ? 'rotate-45 translate-y-2' : ''}`} />
+            <div className={`w-5 h-0.5 bg-white mb-1.5 transition-all duration-300 ${open ? 'opacity-0' : ''}`} />
+            <div className={`w-5 h-0.5 bg-white transition-all duration-300 ${open ? '-rotate-45 -translate-y-2' : ''}`} />
+          </button>
+        </div>
       </nav>
 
       {/* Mobile menu */}
@@ -109,15 +111,6 @@ export default function Navbar({ scrollContainer }) {
                   </a>
                 </li>
               ))}
-              <li>
-                <a
-                  href="#contact"
-                  onClick={(e) => handleNavClick(e, '#contact')}
-                  className="btn-gradient inline-block text-white text-sm font-semibold px-5 py-2 rounded-full"
-                >
-                  Hire Me
-                </a>
-              </li>
             </ul>
           </motion.div>
         )}
