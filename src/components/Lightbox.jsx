@@ -62,17 +62,7 @@ export default function Lightbox({ images, startIndex, title, onClose }) {
           </div>
 
           {/* Image + side arrows */}
-          <div className="relative w-full flex items-center gap-3">
-            {multi && (
-              <button
-                onClick={prev}
-                className="flex-shrink-0 glass-card w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white hover:border-white/20 transition-colors"
-                aria-label="Previous image"
-              >
-                <FiChevronLeft size={20} />
-              </button>
-            )}
-
+          <div className="relative w-full flex items-center">
             <AnimatePresence mode="wait">
               <motion.img
                 key={idx}
@@ -82,20 +72,29 @@ export default function Lightbox({ images, startIndex, title, onClose }) {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.18 }}
-                className="flex-1 max-h-[75vh] w-full object-contain rounded-xl"
+                className="w-full max-h-[75vh] object-contain rounded-xl"
                 style={{ background: 'rgba(255,255,255,0.03)' }}
                 draggable={false}
               />
             </AnimatePresence>
 
             {multi && (
-              <button
-                onClick={next}
-                className="flex-shrink-0 glass-card w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white hover:border-white/20 transition-colors"
-                aria-label="Next image"
-              >
-                <FiChevronRight size={20} />
-              </button>
+              <>
+                <button
+                  onClick={prev}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 glass-card w-9 h-9 flex items-center justify-center text-gray-400 hover:text-white hover:border-white/20 transition-colors"
+                  aria-label="Previous image"
+                >
+                  <FiChevronLeft size={18} />
+                </button>
+                <button
+                  onClick={next}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 glass-card w-9 h-9 flex items-center justify-center text-gray-400 hover:text-white hover:border-white/20 transition-colors"
+                  aria-label="Next image"
+                >
+                  <FiChevronRight size={18} />
+                </button>
+              </>
             )}
           </div>
 
