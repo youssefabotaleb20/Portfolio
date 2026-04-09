@@ -70,7 +70,7 @@ export default function About() {
         </motion.div>
 
         {/* Two-column: photo + bio */}
-        <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center mb-10 md:mb-14 overflow-x-hidden">
+        <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center mb-5 md:mb-10 py-5 overflow-x-hidden">
           {inView && <Photo />}
 
           <motion.div
