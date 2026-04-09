@@ -11,9 +11,9 @@ function Photo() {
       className="flex justify-center"
     >
       <motion.div
-        animate={{ y: [0, -14, 0] }}
+        animate={{ y: [0, -10, 0] }}
         transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-        className="relative w-64 h-72 md:w-80 md:h-96"
+        className="relative w-48 h-56 md:w-80 md:h-96"
       >
         {/* Pulsing glow */}
         <motion.div
@@ -62,7 +62,7 @@ export default function About() {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="mb-14"
+          className="mb-8 md:mb-14"
         >
           <h2 className="text-3xl md:text-4xl font-bold section-heading inline-block md:pt-10">
             About Me
@@ -70,14 +70,14 @@ export default function About() {
         </motion.div>
 
         {/* Two-column: photo + bio */}
-        <div className="grid md:grid-cols-2 gap-16 items-center mb-14 overflow-hidden">
+        <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center mb-10 md:mb-14 overflow-x-hidden">
           {inView && <Photo />}
 
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="space-y-6"
+            className="space-y-5 md:space-y-6"
           >
             <div className="space-y-4">
               {ME.bio.map((para, i) => (
