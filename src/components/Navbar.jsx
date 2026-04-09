@@ -19,11 +19,13 @@ export default function Navbar({ scrollContainer }) {
     return () => el.removeEventListener('scroll', onScroll)
   }, [scrollContainer])
 
+  const solid = open || progress > 0.1
   const navStyle = {
-    background:      `rgba(5, 5, 16, ${0.85 * progress})`,
-    backdropFilter:  `blur(${20 * progress}px)`,
-    WebkitBackdropFilter: `blur(${20 * progress}px)`,
-    borderBottom:    `1px solid rgba(255, 255, 255, ${0.06 * progress})`,
+    background:           solid ? 'rgba(5, 5, 16, 0.92)' : `rgba(5, 5, 16, ${0.85 * progress})`,
+    backdropFilter:       solid ? 'blur(20px)'            : `blur(${20 * progress}px)`,
+    WebkitBackdropFilter: solid ? 'blur(20px)'            : `blur(${20 * progress}px)`,
+    borderBottom:         `1px solid rgba(255, 255, 255, ${solid ? 0.06 : 0.06 * progress})`,
+    transition:           'background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease',
   }
 
   const handleNavClick = (e, href) => {
@@ -93,11 +95,11 @@ export default function Navbar({ scrollContainer }) {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden navbar-scrolled border-t border-white/5"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            className="md:hidden border-t border-white/5 overflow-hidden"
           >
             <ul className="flex flex-col px-6 py-4 gap-4">
               {NAV_LINKS.map((link) => (
