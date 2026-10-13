@@ -38,6 +38,18 @@ export const PROJECTS = [
     githubUrl: "https://github.com/youssefabotaleb20/pulsar-dashboard/",
   },
   {
+    title: "Alex Rivera ~ Portfolio Demo",
+    description: "A concept personal portfolio for a fictional software engineer, built to showcase motion design and interactive front-end craft: scroll-driven parallax, a horizontal project gallery, draggable elements, a custom cursor, and animated typography. Alex Rivera is not a real person. All projects, experience, and contact details are illustrative.",
+    images: [
+      `${base}projects/alex1.png`,
+      `${base}projects/alex2.png`,
+      `${base}projects/alex3.png`,
+    ],
+    tags: ["React", "Tailwind", "Framer Motion"],
+    liveUrl: "https://youssefabotaleb20.github.io/alex-portfolio/",
+    githubUrl: "https://github.com/youssefabotaleb20/alex-portfolio/",
+  },
+  {
     title: "Essence ~ E-commerce Demo",
     description: "Essence is a sleek, modern demo website designed to showcase the potential of a clean and minimal digital presence. Built with responsive design principles, Essence serves as a versatile template for personal brands, startups, creative portfolios, or product showcases. The project emphasizes aesthetic simplicity, intuitive navigation, and performance optimization to deliver a seamless user experience across all devices.",
     images: [
