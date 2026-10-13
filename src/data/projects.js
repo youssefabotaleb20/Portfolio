@@ -69,6 +69,5 @@ export const PROJECTS = [
     ],
     tags: ["PHP", "React", "Tailwind", "MySQL"],
     liveUrl: "https://unitedgroupeg.com",
-    githubUrl: "https://github.com/youssefabotaleb20/unitedgroupeg/",
   },
 ];
