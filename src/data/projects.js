@@ -59,7 +59,7 @@ export const PROJECTS = [
     ],
     tags: ["PHP", "React", "Tailwind", "MySQL"],
     liveUrl: "https://youssefabotaleb20.github.io/essence-ecom/",
-    githubUrl: "https://github.com/youssefabotaleb20/essencedemo/",
+    githubUrl: "https://github.com/youssefabotaleb20/essence-ecom-",
   },
   {
     title: "United Group ~ Corporate Website",
