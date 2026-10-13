@@ -33,7 +33,9 @@ export default function Navbar({ scrollContainer }) {
     setOpen(false)
     const target = document.querySelector(href)
     if (target && scrollContainer?.current) {
-      scrollContainer.current.scrollTo({ top: target.offsetTop, behavior: 'smooth' })
+      // offsetTop is relative to the nearest positioned ancestor, not the scroll container
+      const top = target.getBoundingClientRect().top - scrollContainer.current.getBoundingClientRect().top + scrollContainer.current.scrollTop
+      scrollContainer.current.scrollTo({ top, behavior: 'smooth' })
     }
   }
 
