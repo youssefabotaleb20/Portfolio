@@ -69,5 +69,6 @@ export const PROJECTS = [
     ],
     tags: ["PHP", "React", "Tailwind", "MySQL"],
     liveUrl: "https://unitedgroupeg.com",
+    liveLabel: "Visit Site",
   },
 ];

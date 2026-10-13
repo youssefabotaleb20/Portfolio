@@ -66,7 +66,7 @@ function DescriptionModal({ project, onClose }) {
                 className="btn-gradient flex items-center gap-2 text-white text-xs font-semibold px-4 py-2 rounded-full"
               >
                 <FiExternalLink size={13} />
-                Live Demo
+                {project.liveLabel || "Live Demo"}
               </a>
             )}
             {project.githubUrl && (
@@ -224,7 +224,7 @@ function ProjectCard({ project, index, inView, onImageClick, onReadMore }) {
               className="btn-gradient flex items-center gap-2 text-white text-xs font-semibold px-4 py-2 rounded-full"
             >
               <FiExternalLink size={13} />
-              Live Demo
+              {project.liveLabel || "Live Demo"}
             </a>
           )}
           {project.githubUrl && (
