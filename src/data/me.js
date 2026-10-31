@@ -36,8 +36,9 @@ export const ME = {
   // ─── Contact & social links ────────────────────────────────
   email:    'youssef.mohamed9666@icloud.com',
   github:   'https://github.com/youssefabotaleb20',
-  linkedin: 'www.linkedin.com/in/youssef-abotaleb-996a7528a',
+  linkedin: 'https://www.linkedin.com/in/youssef-abotaleb-996a7528a',
   upwork:   'https://www.upwork.com/freelancers/~0182b696a1456d9faa?mp_source=share',
   fiverr:   'https://www.fiverr.com/s/LdZ90ej',
-  linktree: 'https://www.upwork.com/freelancers/~0182b696a1456d9faa?mp_source=share',
+  // Set to your Linktree URL (https://linktr.ee/...). The icon is hidden while empty.
+  linktree: '',
 }
