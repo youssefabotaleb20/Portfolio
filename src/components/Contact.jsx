@@ -129,15 +129,17 @@ export default function Contact() {
           >
             <FaLinkedinIn size={22} />
           </a>
-          <a
-            href={ME.linktree}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-400 hover:text-[#43e55e] transition-colors p-2"
-            aria-label="Linktree"
-          >
-            <SiLinktree size={22} />
-          </a>
+          {ME.linktree && (
+            <a
+              href={ME.linktree}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-[#43e55e] transition-colors p-2"
+              aria-label="Linktree"
+            >
+              <SiLinktree size={22} />
+            </a>
+          )}
         </motion.div>
       </div>
     </section>

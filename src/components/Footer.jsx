@@ -35,14 +35,16 @@ export default function Footer({ scrollContainer }) {
           >
             <FaLinkedinIn size={18} />
           </a>
-          <a
-            href={ME.linktree}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-500 hover:text-[#43e55e] transition-colors"
-          >
-            <SiLinktree size={18} />
-          </a>
+          {ME.linktree && (
+            <a
+              href={ME.linktree}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-[#43e55e] transition-colors"
+            >
+              <SiLinktree size={18} />
+            </a>
+          )}
 
           <button
             onClick={scrollToTop}
