@@ -1,220 +1,134 @@
 @import "tailwindcss";
+@import "@fontsource/tektur/500.css";
+@import "@fontsource/tektur/700.css";
+@import "@fontsource/tektur/800.css";
+@import "@fontsource/martian-mono/400.css";
+@import "@fontsource/martian-mono/500.css";
+@import "@fontsource/geist-sans/400.css";
+@import "@fontsource/geist-sans/500.css";
+@import "@fontsource/geist-sans/600.css";
 
-/* ─── CSS Variables ─────────────────────────────────────────── */
+/* World: a bright engineering workspace. Work floats as panels in 3D space,
+   annotated like a CAD scene: grid floor, dimension lines, coordinates,
+   one cut-orange for action and measurement. */
+@theme {
+  --color-ground: #e8ebee;
+  --color-ground-2: #dfe3e7;
+  --color-panel: #ffffff;
+  --color-ink: #0f1720;
+  --color-ink-2: #2b3540;
+  --color-dim: #5b6673;
+  --color-rule: rgb(15 23 32 / 0.14);
+  --color-cut: #ff4d00;
+  --color-cut-deep: #d63f00;
+  --font-display: "Tektur", "Arial Narrow", sans-serif;
+  --font-body: "Geist Sans", system-ui, sans-serif;
+  --font-mono: "Martian Mono", ui-monospace, monospace;
+}
+
 :root {
-  --color-bg: #050510;
-  --color-accent: #00d4ff;
-  --color-purple: #7c3aed;
-  --color-pink: #ec4899;
-  --gradient: linear-gradient(135deg, #7c3aed, #00d4ff);
-  --gradient-text: linear-gradient(135deg, #7c3aed, #ec4899, #00d4ff);
+  color-scheme: light;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ─── Custom cursor (desktop only) ─────────────────────────── */
-@media (pointer: fine) {
-  *, *::before, *::after { cursor: none !important; }
-}
-
-/* ─── Base ──────────────────────────────────────────────────── */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; }
 
 html {
+  background: var(--color-ground);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
   scroll-behavior: smooth;
-  background-color: var(--color-bg);
-  color: #ffffff;
-  font-family: 'Inter', sans-serif;
+  scroll-padding-top: 72px;
 }
 
 body {
   margin: 0;
-  padding: 0;
+  background: var(--color-ground);
   overflow-x: hidden;
-  background-color: var(--color-bg);
 }
 
-/* ─── Scroll Container ──────────────────────────────────────── */
-.scroll-container {
-  height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y proximity;
-  scroll-behavior: smooth;
+::selection { background: var(--color-cut); color: #fff; }
+
+:focus-visible {
+  outline: 2px solid var(--color-cut);
+  outline-offset: 3px;
 }
 
-.snap-section {
-  scroll-snap-align: start;
-  min-height: 100vh;
+/* Scrollbar in the workspace palette */
+html { scrollbar-color: var(--color-ink-2) var(--color-ground-2); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--color-ground-2); }
+::-webkit-scrollbar-thumb { background: var(--color-ink-2); border: 3px solid var(--color-ground-2); }
+
+h1, h2, h3 { text-wrap: balance; }
+
+@layer components {
+.mono { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; }
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* Perspective grid floor */
+.grid-floor {
+  background-image:
+    linear-gradient(var(--color-rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-rule) 1px, transparent 1px);
+  background-size: 72px 72px;
 }
 
-/* ─── Gradient Text ─────────────────────────────────────────── */
-.gradient-text {
-  background: var(--gradient-text);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Dimension line: a rule with end ticks */
+.dim-line { position: relative; border-top: 1px solid var(--color-cut); }
+.dim-line::before, .dim-line::after {
+  content: ""; position: absolute; top: -5px; width: 1px; height: 9px; background: var(--color-cut);
+}
+.dim-line::before { left: 0; }
+.dim-line::after { right: 0; }
+
+/* Registration cross */
+.cross { position: absolute; width: 17px; height: 17px; pointer-events: none; }
+.cross::before, .cross::after { content: ""; position: absolute; background: var(--color-cut); }
+.cross::before { left: 8px; top: 0; width: 1.5px; height: 17px; }
+.cross::after { top: 8px; left: 0; height: 1.5px; width: 17px; }
+
+/* Corner brackets for framed viewports */
+.brackets { position: relative; }
+.brackets > .b { position: absolute; width: 14px; height: 14px; border-color: var(--color-ink); pointer-events: none; }
+.brackets > .b.tl { top: -7px; left: -7px; border-top: 1.5px solid; border-left: 1.5px solid; }
+.brackets > .b.tr { top: -7px; right: -7px; border-top: 1.5px solid; border-right: 1.5px solid; }
+.brackets > .b.bl { bottom: -7px; left: -7px; border-bottom: 1.5px solid; border-left: 1.5px solid; }
+.brackets > .b.br { bottom: -7px; right: -7px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
+
+/* Panels floating in the scene */
+.panel {
+  background: var(--color-panel);
+  border: 1px solid rgb(15 23 32 / 0.22);
+  box-shadow: 0 50px 70px -40px rgb(15 23 32 / 0.45), 0 12px 20px -14px rgb(15 23 32 / 0.25);
 }
 
-.gradient-text-blue {
-  background: linear-gradient(135deg, #7c3aed, #00d4ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  height: 52px; padding: 0 24px;
+  font-family: var(--font-display); font-weight: 500; font-size: 16px;
+  text-decoration: none; white-space: nowrap;
+  transition: transform 0.4s var(--ease-out), background-color 0.25s, color 0.25s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-cut { background: var(--color-cut); color: #fff; }
+.btn-cut:hover { background: var(--color-cut-deep); }
+.btn-line { border: 1.5px solid var(--color-ink); color: var(--color-ink); }
+.btn-line:hover { background: var(--color-ink); color: var(--color-ground); }
+.btn svg { width: 16px; height: 16px; flex: none; }
+
+.link-u {
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px;
+  text-decoration-color: rgb(15 23 32 / 0.3);
+  transition: text-decoration-color 0.2s, color 0.2s;
+}
+.link-u:hover { text-decoration-color: var(--color-cut); color: var(--color-cut-deep); }
+
 }
 
-/* ─── Gradient Button ───────────────────────────────────────── */
-.btn-gradient {
-  background: linear-gradient(135deg, #7c3aed, #00d4ff);
-  position: relative;
-  z-index: 0;
-  transition: opacity 0.3s ease, transform 0.2s ease;
-}
-.btn-gradient:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
-}
-
-.btn-outline {
-  border: 1.5px solid rgba(0, 212, 255, 0.5);
-  color: #00d4ff;
-  transition: border-color 0.3s ease, background 0.3s ease, transform 0.2s ease;
-}
-.btn-outline:hover {
-  border-color: #00d4ff;
-  background: rgba(0, 212, 255, 0.08);
-  transform: translateY(-2px);
-}
-
-/* ─── Glowing Orbs ──────────────────────────────────────────── */
-@keyframes float-orb-1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%       { transform: translate(80px, -100px) scale(1.15); }
-  66%       { transform: translate(-50px, 60px) scale(0.9); }
-}
-
-@keyframes float-orb-2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%       { transform: translate(-70px, 80px) scale(1.1); }
-  66%       { transform: translate(60px, -50px) scale(0.95); }
-}
-
-@keyframes float-orb-3 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%       { transform: translate(50px, 60px) scale(0.9); }
-  66%       { transform: translate(-80px, -40px) scale(1.1); }
-}
-
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.3;
-  pointer-events: none;
-}
-
-.orb-1 {
-  width: 500px;
-  height: 500px;
-  background: #7c3aed;
-  top: -100px;
-  left: -100px;
-  animation: float-orb-1 18s ease-in-out infinite;
-}
-
-.orb-2 {
-  width: 400px;
-  height: 400px;
-  background: #00d4ff;
-  bottom: -80px;
-  right: -80px;
-  animation: float-orb-2 14s ease-in-out infinite;
-  animation-delay: -5s;
-}
-
-.orb-3 {
-  width: 350px;
-  height: 350px;
-  background: #ec4899;
-  top: 40%;
-  left: 50%;
-  animation: float-orb-3 20s ease-in-out infinite;
-  animation-delay: -10s;
-  opacity: 0.2;
-}
-
-/* ─── Typewriter cursor ─────────────────────────────────────── */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
-}
-
-.typewriter-cursor {
-  display: inline-block;
-  width: 3px;
-  height: 1em;
-  background: #00d4ff;
-  margin-left: 4px;
-  vertical-align: middle;
-  animation: blink 1s step-end infinite;
-}
-
-/* ─── Section heading underline ─────────────────────────────── */
-.section-heading::after {
-  content: '';
-  display: block;
-  margin-top: 0.5rem;
-  height: 3px;
-  width: 60px;
-  background: linear-gradient(135deg, #7c3aed, #00d4ff);
-  border-radius: 2px;
-}
-
-/* ─── Scrollbar (Projects horizontal) ───────────────────────── */
-.projects-scroll::-webkit-scrollbar {
-  height: 4px;
-}
-.projects-scroll::-webkit-scrollbar-track {
-  background: rgba(255,255,255,0.05);
-  border-radius: 2px;
-}
-.projects-scroll::-webkit-scrollbar-thumb {
-  background: linear-gradient(90deg, #7c3aed, #00d4ff);
-  border-radius: 2px;
-}
-
-/* ─── Glass card ─────────────────────────────────────────────── */
-.glass-card {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-}
-
-.glass-card:hover {
-  border-color: rgba(0, 212, 255, 0.2);
-}
-
-/* ─── Skill icon glow ────────────────────────────────────────── */
-.skill-icon {
-  transition: transform 0.25s ease, filter 0.25s ease;
-}
-.skill-icon:hover {
-  transform: translateY(-6px) scale(1.15);
-  filter: drop-shadow(0 0 12px currentColor);
-}
-
-/* ─── Navbar backdrop ────────────────────────────────────────── */
-.navbar-scrolled {
-  background: rgba(5, 5, 16, 0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-/* ─── Bounce arrow ───────────────────────────────────────────── */
-@keyframes bounce-y {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(10px); }
-}
-.bounce-arrow {
-  animation: bounce-y 2s ease-in-out infinite;
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
