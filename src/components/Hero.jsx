@@ -1,159 +1,136 @@
-import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useEffect } from 'react'
+import { motion, useMotionValue, useSpring, useTransform, useScroll, useReducedMotion } from 'framer-motion'
+import { FiArrowDownRight, FiDownload } from 'react-icons/fi'
 import { ME } from '../data/me.js'
+import { PROJECTS } from '../data/projects.js'
+import useMedia from '../hooks/useMedia.js'
 
-function useTypewriter(words, speed = 80, pause = 1800) {
-  const [display, setDisplay]     = useState('')
-  const [wordIdx, setWordIdx]     = useState(0)
-  const [charIdx, setCharIdx]     = useState(0)
-  const [deleting, setDeleting]   = useState(false)
+// Panels placed in scene space (px). z is depth; the hero rotates the whole scene.
+const LAYOUT = [
+  { x: 40, y: 70, z: 60, w: 560 },
+  { x: 470, y: -20, z: -180, w: 300 },
+  { x: 500, y: 300, z: -60, w: 300 },
+  { x: -40, y: 410, z: -260, w: 270 },
+]
+
+const KIND_LABEL = { client: 'Client · Live', web: 'Web', fullstack: 'Full-stack' }
+
+function Panel({ project, slot, i, scrollY, reduce }) {
+  // deeper panels drift less: parallax by depth
+  const depth = 1 - (slot.z + 300) / 700
+  const y = useTransform(scrollY, [0, 900], [0, -140 - depth * 220])
+  return (
+    <motion.a
+      href="#work"
+      className="panel group absolute block"
+      style={{
+        left: slot.x,
+        top: slot.y,
+        width: slot.w,
+        y,
+        z: slot.z,
+        transformStyle: 'preserve-3d',
+      }}
+      initial={reduce ? false : { z: slot.z - 700, opacity: 0 }}
+      animate={{ z: slot.z, opacity: 1 }}
+      transition={{ duration: 1.6, delay: 0.25 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <span className="mono absolute -top-6 left-0 whitespace-nowrap text-ink">
+        <span className="text-cut">{project.destination}</span> / {KIND_LABEL[project.category]}
+      </span>
+      <img
+        src={project.images[0]}
+        alt={`${project.destination} screenshot`}
+        className="block aspect-[16/10] w-full object-cover object-top"
+        draggable={false}
+        fetchpriority={i === 0 ? 'high' : 'auto'}
+      />
+      <span className="mono absolute -bottom-6 right-0 text-dim tabular">z {slot.z}</span>
+    </motion.a>
+  )
+}
+
+export default function Hero() {
+  const reduce = useReducedMotion()
+  const wide = useMedia('(min-width: 1024px)')
+  const { scrollY } = useScroll()
+
+  const mx = useMotionValue(0)
+  const my = useMotionValue(0)
+  const sx = useSpring(mx, { stiffness: 60, damping: 18 })
+  const sy = useSpring(my, { stiffness: 60, damping: 18 })
+  const rotY = useTransform(sx, (v) => -24 + v * 10)
+  const rotX = useTransform(sy, (v) => 6 - v * 6)
+  const floorY = useTransform(scrollY, [0, 900], [0, 120])
 
   useEffect(() => {
-    const current = words[wordIdx]
-    const delay = deleting ? speed / 2 : speed
-
-    const timeout = setTimeout(() => {
-      if (!deleting && charIdx < current.length) {
-        setDisplay(current.slice(0, charIdx + 1))
-        setCharIdx(charIdx + 1)
-      } else if (!deleting && charIdx === current.length) {
-        setTimeout(() => setDeleting(true), pause)
-      } else if (deleting && charIdx > 0) {
-        setDisplay(current.slice(0, charIdx - 1))
-        setCharIdx(charIdx - 1)
-      } else {
-        setDeleting(false)
-        setWordIdx((wordIdx + 1) % words.length)
-      }
-    }, delay)
-
-    return () => clearTimeout(timeout)
-  }, [charIdx, deleting, wordIdx, words, speed, pause])
-
-  return display
-}
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, delay: i * 0.15, ease: 'easeOut' },
-  }),
-}
-
-export default function Hero({ scrollContainer }) {
-  const role = useTypewriter(ME.roles)
-
-  const scrollToSection = (href) => {
-    const target = document.querySelector(href)
-    if (target && scrollContainer?.current) {
-      // offsetTop is relative to the nearest positioned ancestor, not the scroll container
-      const top = target.getBoundingClientRect().top - scrollContainer.current.getBoundingClientRect().top + scrollContainer.current.scrollTop
-      scrollContainer.current.scrollTo({ top, behavior: 'smooth' })
+    if (reduce || !wide) return
+    const onMove = (e) => {
+      mx.set(e.clientX / window.innerWidth - 0.5)
+      my.set(e.clientY / window.innerHeight - 0.5)
     }
-  }
+    window.addEventListener('pointermove', onMove)
+    return () => window.removeEventListener('pointermove', onMove)
+  }, [reduce, wide, mx, my])
+
+  const featured = ['YA100', 'YA105', 'YA103', 'YA102'].map((c) => PROJECTS.find((p) => p.code === c))
 
   return (
-    <section
-      id="hero"
-      className="snap-section relative flex flex-col items-center justify-center text-center overflow-hidden px-6"
-    >
-      {/* Glowing orbs */}
-      <div className="orb orb-1" />
-      <div className="orb orb-2" />
-      <div className="orb orb-3" />
-
-      {/* Subtle grid overlay */}
-      <div
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
-        style={{
-          backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
-          backgroundSize: '60px 60px',
-        }}
+    <section id="top" className="relative overflow-hidden pt-14">
+      {/* perspective floor */}
+      <motion.div
+        aria-hidden="true"
+        className="grid-floor pointer-events-none absolute -inset-x-[30%] bottom-[-60%] h-[95%]"
+        style={{ y: floorY, transform: 'perspective(700px) rotateX(62deg)', transformOrigin: 'center top' }}
       />
 
-      {/* Content */}
-      <div className="relative z-10 max-w-4xl">
-        <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={0}
-          className="text-sm font-medium tracking-widest uppercase text-cyan-400 mb-4"
-        >
-          Welcome to my portfolio
-        </motion.p>
+      <div className="relative mx-auto grid min-h-[calc(100svh-56px)] max-w-[1600px] grid-cols-1 items-center gap-10 px-5 pb-16 pt-10 md:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:pb-24">
+        <div className="relative z-10 min-w-0">
+          <p className="mono mb-6 text-dim tabular">X 0.00 · Y 0.00 · Cairo 30.04°N 31.24°E</p>
+          <h1 className="font-display text-[clamp(56px,9vw,128px)] font-extrabold leading-[0.86] tracking-[-0.03em]">
+            {ME.firstName}
+            <br />
+            <span className="text-cut">{ME.lastName}</span>
+          </h1>
+          <p className="mt-8 max-w-[30em] text-[18px] leading-relaxed text-ink-2">
+            Full-stack developer for web, mobile and cloud apps. I design the interface, build the frontend and backend,
+            and ship it.
+          </p>
+          <div className="dim-line mt-8 max-w-[30em] pt-2">
+            <p className="mono text-cut">React · Next.js · React Native · Node.js · Python · PHP</p>
+          </div>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a href="#contact" className="btn btn-cut">
+              Hire me <FiArrowDownRight />
+            </a>
+            <a href={ME.cv} download className="btn btn-line">
+              Download CV <FiDownload />
+            </a>
+          </div>
+          <p className="mt-5 text-sm text-dim">
+            Clients: hire me on <a className="link-u" href={ME.upwork} target="_blank" rel="noopener noreferrer">Upwork</a> or{' '}
+            <a className="link-u" href={ME.fiverr} target="_blank" rel="noopener noreferrer">Fiverr</a>. Recruiters: the CV is one click.
+          </p>
+        </div>
 
-        <motion.h1
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={1}
-          className="text-4xl sm:text-5xl md:text-7xl font-black leading-tight mb-4"
-        >
-          Hi, I&apos;m{' '}
-          <span className="gradient-text">{ME.name}</span>
-        </motion.h1>
-
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={2}
-          className="text-lg sm:text-xl md:text-3xl font-semibold text-gray-300 mb-6 h-8 sm:h-10 flex items-center justify-center"
-        >
-          <span>{role}</span>
-          <span className="typewriter-cursor" />
-        </motion.div>
-
-        <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={3}
-          className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
-        >
-          {ME.tagline}
-        </motion.p>
-
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={4}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-        >
-          <button
-            onClick={() => scrollToSection('#projects')}
-            className="btn-gradient text-white font-semibold px-8 py-3.5 rounded-full text-base cursor-pointer w-full sm:w-auto"
+        {/* 3D scene */}
+        <div className="relative h-[330px] sm:h-[420px] lg:mt-10 lg:h-[600px]" style={{ perspective: 1400 }} aria-label="Selected projects">
+          <motion.div
+            className="absolute left-0 top-0 h-[640px] w-[860px] origin-top-left scale-[0.42] sm:scale-[0.55] md:scale-[0.7] lg:scale-[0.78] xl:scale-[0.86]"
+            style={{ rotateY: rotY, rotateX: rotX, transformStyle: 'preserve-3d' }}
           >
-            View My Work
-          </button>
-          <button
-            onClick={() => scrollToSection('#contact')}
-            className="btn-outline font-semibold px-8 py-3.5 rounded-full text-base cursor-pointer w-full sm:w-auto"
-          >
-            Contact Me
-          </button>
-        </motion.div>
+            {featured.map((p, i) => (
+              <Panel key={p.code} project={p} slot={LAYOUT[i]} i={i} scrollY={scrollY} reduce={reduce} />
+            ))}
+          </motion.div>
+          <span className="cross right-2 top-2 hidden lg:block" aria-hidden="true" />
+        </div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 0.6 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
-        onClick={() => scrollToSection('#about')}
-      >
-        <span className="text-xs text-gray-500 tracking-widest uppercase">Scroll</span>
-        <div className="bounce-arrow text-gray-500">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M12 5v14M5 12l7 7 7-7" />
-          </svg>
-        </div>
-      </motion.div>
+      <div className="mono relative mx-auto flex max-w-[1600px] items-center justify-between px-5 pb-6 text-dim md:px-8">
+        <span>Scroll to fly through the work</span>
+        <span className="hidden sm:inline">{PROJECTS.length} projects in scene</span>
+      </div>
     </section>
   )
 }
