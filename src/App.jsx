@@ -1,5 +1,6 @@
 import Toolbar from './components/Toolbar.jsx'
 import Hero from './components/Hero.jsx'
+import Marquee from './components/Marquee.jsx'
 import Work from './components/Work.jsx'
 import Services from './components/Services.jsx'
 import Skills from './components/Skills.jsx'
@@ -16,6 +17,7 @@ export default function App() {
       <Toolbar />
       <main>
         <Hero />
+        <Marquee />
         <Work />
         <Services />
         <Skills />
