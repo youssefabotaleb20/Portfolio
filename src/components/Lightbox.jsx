@@ -35,7 +35,7 @@ export default function Lightbox({ images, startIndex, title, onClose }) {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
         className="fixed inset-0 z-[9998] flex items-center justify-center"
-        style={{ background: 'rgba(15,23,32,0.88)' }}
+        style={{ background: 'rgba(7,9,12,0.94)' }}
         role="dialog" aria-modal="true" aria-label={title ? `${title} screenshots` : 'Screenshots'}
         onClick={onClose}
       >
@@ -51,16 +51,16 @@ export default function Lightbox({ images, startIndex, title, onClose }) {
         >
           {/* Header row */}
           <div className="w-full flex items-center justify-between mb-3 px-1">
-            <span className="mono text-[#c9d0d8]">
-              {title && <span className="text-white">{title}</span>}
-              {title && multi && <span className="mx-2 text-[#9aa5b1]">·</span>}
+            <span className="mono text-ink-2">
+              {title && <span className="text-ink">{title}</span>}
+              {title && multi && <span className="mx-2 text-dim">·</span>}
               {multi && (
-                <span className="tabular text-[#9aa5b1]">{idx + 1} / {images.length}</span>
+                <span className="tabular text-dim">{idx + 1} / {images.length}</span>
               )}
             </span>
             <button
               onClick={onClose}
-              className="p-1 text-[#c9d0d8] transition-colors hover:text-cut"
+              className="p-1 text-ink-2 transition-colors hover:text-cut"
               aria-label="Close"
             >
               <FiX size={22} />
@@ -78,7 +78,7 @@ export default function Lightbox({ images, startIndex, title, onClose }) {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.18 }}
-                className="w-full max-h-[75vh] object-contain bg-white"
+                className="w-full max-h-[75vh] object-contain bg-panel border border-rule"
                 draggable={false}
               />
             </AnimatePresence>
@@ -87,14 +87,14 @@ export default function Lightbox({ images, startIndex, title, onClose }) {
               <>
                 <button
                   onClick={prev}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center bg-ink text-white transition-colors hover:bg-cut"
+                  className="absolute left-2 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center bg-ink text-ink transition-colors hover:bg-cut"
                   aria-label="Previous image"
                 >
                   <FiChevronLeft size={18} />
                 </button>
                 <button
                   onClick={next}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center bg-ink text-white transition-colors hover:bg-cut"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center bg-ink text-ink transition-colors hover:bg-cut"
                   aria-label="Next image"
                 >
                   <FiChevronRight size={18} />
@@ -114,7 +114,7 @@ export default function Lightbox({ images, startIndex, title, onClose }) {
                   className="h-[3px] transition-all duration-200"
                   style={{
                     width:      i === idx ? 28 : 12,
-                    background: i === idx ? '#ff4d00' : 'rgba(255,255,255,0.35)',
+                    background: i === idx ? '#ff5a1f' : 'rgba(238,242,246,0.3)',
                   }}
                 />
               ))}
