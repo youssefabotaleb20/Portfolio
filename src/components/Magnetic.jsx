@@ -14,12 +14,7 @@ export default function Magnetic({ children, strength = 0.25, className = '' }) 
   }
   const reset = () => { if (ref.current) ref.current.style.transform = '' }
   return (
-    <span
-      ref={ref}
-      onPointerMove={onMove}
-      onPointerLeave={reset}
-      className={`inline-flex transition-transform duration-300 ease-out ${className}`}
-    >
+    <span ref={ref} onPointerMove={onMove} onPointerLeave={reset} className={`inline-flex transition-transform duration-300 ease-out ${className}`}>
       {children}
     </span>
   )
