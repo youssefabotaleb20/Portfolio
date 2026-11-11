@@ -1,80 +1,86 @@
+import { useRef } from 'react'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { ME } from '../data/me.js'
-import Decode from './Decode.jsx'
-import useInView from '../hooks/useInView.js'
-
-const CALLOUTS = [
-  { label: 'Cairo, Egypt', top: '12%' },
-  { label: 'GUC · CSE', top: '36%' },
-  { label: 'IBM Full Stack certified', top: '60%' },
-  { label: 'Arabic · English', top: '84%' },
-]
+import { Words, Rise, EASE } from './Reveal.jsx'
 
 export default function About() {
-  const [ref, inView] = useInView({ margin: '0px 0px -20% 0px' })
+  const ref = useRef(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
+  const imgY = useTransform(scrollYProgress, [0, 1], ['-9%', '9%'])
+  const plateA = useTransform(scrollYProgress, [0, 1], [70, -70])
+  const plateB = useTransform(scrollYProgress, [0, 1], [-50, 50])
 
   return (
-    <section id="about" className="relative overflow-hidden border-t border-rule bg-ground">
-      <div className="mx-auto grid max-w-[1600px] gap-14 px-5 py-24 md:px-8 md:py-32 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:items-center">
-        <div ref={ref} className="relative mx-auto w-full max-w-[340px] sm:ml-auto sm:mr-6 lg:mr-10">
-          <div className="brackets relative">
-            <span className="b tl" /><span className="b tr" /><span className="b bl" /><span className="b br" />
-            <div className={`scan panel overflow-hidden ${inView ? 'is-in' : ''}`} style={{ '--scan-h': '453px' }}>
-              <img
-                src={ME.photo}
-                alt={`Portrait of ${ME.name}`}
-                loading="lazy"
-                className="block aspect-[3/4] w-full object-cover object-top transition-[clip-path,transform,filter] duration-[1200ms] ease-[cubic-bezier(.16,1,.3,1)]"
-                style={{
-                  clipPath: inView ? 'inset(0 0 0 0)' : 'inset(0 0 100% 0)',
-                  transform: inView ? 'scale(1)' : 'scale(1.1)',
-                  filter: inView ? 'grayscale(0)' : 'grayscale(1)',
-                }}
-              />
-            </div>
-          </div>
-          {/* callouts draw in from the photo (tablet and up) */}
-          {CALLOUTS.map((c, i) => (
-            <div
-              key={c.label}
-              className="mono pointer-events-none absolute right-[92%] hidden flex-row-reverse items-center gap-2 text-right text-ink sm:flex"
-              style={{ top: c.top }}
+    <section id="about" className="relative overflow-hidden border-t border-rule bg-night-2">
+      <div className="mx-auto max-w-[1500px] px-5 py-24 md:px-10 md:py-40">
+        <Words as="h2" text="About me" className="display h-section block" wordClass={(w, i) => (i === 1 ? 'display-i text-glow' : '')} />
+
+        <div className="mt-14 grid gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
+          {/* portrait between two drifting plates of light */}
+          <div ref={ref} className="relative mx-auto w-full max-w-[400px] px-6 lg:mx-0 lg:px-8">
+            <motion.span aria-hidden="true" style={{ y: reduce ? 0 : plateA, '--c': '#a98bf0' }} className="absolute -right-0 top-10 h-[72%] w-[62%] rounded-[28px] border border-[color-mix(in_oklab,var(--c)_60%,transparent)] bg-[color-mix(in_oklab,var(--c)_10%,transparent)]" />
+            <motion.span aria-hidden="true" style={{ y: reduce ? 0 : plateB, '--c': '#f6c58f' }} className="absolute bottom-6 left-0 h-[60%] w-[58%] rounded-[28px] border border-[color-mix(in_oklab,var(--c)_60%,transparent)] bg-[color-mix(in_oklab,var(--c)_8%,transparent)]" />
+            <motion.div
+              className="relative overflow-hidden rounded-[28px] border border-rule"
+              initial={reduce ? false : { clipPath: 'inset(100% 0 0 0 round 28px)' }}
+              whileInView={{ clipPath: 'inset(0% 0 0 0 round 28px)' }}
+              viewport={{ once: true, margin: '0px 0px -20% 0px' }}
+              transition={{ duration: 1.4, ease: EASE }}
             >
-              <span className={`h-1.5 w-1.5 flex-none rounded-full bg-cut transition-opacity duration-300 ${inView ? 'opacity-100' : 'opacity-0'}`} style={{ transitionDelay: `${500 + i * 120}ms` }} />
-              <span className="h-px w-10 flex-none origin-right bg-cut transition-transform duration-500" style={{ transform: inView ? 'scaleX(1)' : 'scaleX(0)', transitionDelay: `${600 + i * 120}ms` }} />
-              <span className={`whitespace-nowrap bg-ground px-1 transition-opacity duration-500 ${inView ? 'opacity-100' : 'opacity-0'}`} style={{ transitionDelay: `${800 + i * 120}ms` }}>{c.label}</span>
-            </div>
-          ))}
-          {/* phones: the same facts as a list */}
-          <ul className="mt-6 grid grid-cols-2 gap-2 sm:hidden">
-            {CALLOUTS.map((c) => (
-              <li key={c.label} className="mono flex items-center gap-2 border border-rule px-3 py-2 text-ink-2">
-                <span className="h-1.5 w-1.5 flex-none rounded-full bg-cut" />{c.label}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="min-w-0">
-          <Decode as="h2" text="About me" className="block font-display text-[clamp(44px,6vw,88px)] font-extrabold leading-[0.88] tracking-[-0.03em]" />
-          <div className="mt-8 grid max-w-[36em] gap-5 text-[18px] leading-relaxed text-ink-2">
-            {ME.bio.map((p) => <p key={p}>{p}</p>)}
+              <motion.img src={ME.photo} alt={`Portrait of ${ME.name}`} width="640" height="854" loading="lazy" style={{ y: reduce ? 0 : imgY, scale: 1.2 }} className="block aspect-[3/4] w-full object-cover object-top" />
+            </motion.div>
           </div>
 
-          <dl className="mt-12 grid gap-0 border-t border-cut">
-            {ME.education.map((e) => (
-              <div key={e.title} className="grid gap-1 border-b border-rule py-5 sm:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] sm:gap-6">
-                <dt className="font-display text-[20px] font-bold leading-snug">{e.title}</dt>
-                <dd className="mono leading-relaxed text-dim sm:text-right">{e.org}</dd>
-                {e.note && <dd className="text-[15px] leading-relaxed text-ink-2 sm:col-span-2">{e.note}</dd>}
-              </div>
-            ))}
-          </dl>
+          <div className="min-w-0">
+            <div className="grid max-w-[38em] gap-5">
+              {ME.summary.map((p, i) => <Rise key={i} as="p" delay={i * 0.08} className={i === 0 ? 'text-[clamp(20px,1.900vw,27px)] leading-snug text-ink' : 'lede'}>{p}</Rise>)}
+            </div>
 
-          <ul className="mt-8 flex flex-wrap gap-2" aria-label="How I work">
-            {ME.traits.map((t) => (
-              <li key={t} className="mono border border-rule px-3 py-2 text-ink-2 transition-colors hover:border-cut hover:text-cut">{t}</li>
-            ))}
-          </ul>
+            <Rise className="mt-14">
+              <h3 className="text-[15px] font-medium text-glow">Experience</h3>
+              {ME.experience.map((e) => (
+                <div key={e.title} className="mt-4 border-t border-rule pt-6">
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+                    <p className="display text-[clamp(26px,2.600vw,38px)]">{e.title}</p>
+                    <p className="text-[15px] text-ink-2">{e.when}</p>
+                  </div>
+                  <p className="mt-2 text-[15px] text-dim">{e.scope}. {e.org}</p>
+                  <ul className="mt-5 grid max-w-[40em] gap-3">
+                    {e.points.map((pt) => (
+                      <li key={pt} className="flex gap-3 text-[16.500px] leading-relaxed text-ink-2"><span className="dot mt-[0.55em]" />{pt}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </Rise>
+
+            <Rise className="mt-14">
+              <h3 className="text-[15px] font-medium text-glow">Education and certifications</h3>
+              <dl className="mt-4 border-t border-rule">
+                {ME.education.map((e) => (
+                  <div key={e.title} className="grid gap-1 border-b border-rule py-6 sm:grid-cols-[minmax(0,7fr)_minmax(0,4fr)] sm:gap-6">
+                    <dt className="display text-[clamp(22px,2.100vw,30px)] leading-tight">{e.title}</dt>
+                    <dd className="text-[15px] text-ink-2 sm:text-right">{e.org}</dd>
+                    {e.note && <dd className="max-w-[40em] text-[15px] leading-relaxed text-dim sm:col-span-2">{e.note}</dd>}
+                  </div>
+                ))}
+              </dl>
+            </Rise>
+
+            <Rise className="mt-10 flex flex-wrap gap-x-12 gap-y-5">
+              {ME.languages.map((l) => (
+                <p key={l.name}>
+                  <span className="display block text-[30px]">{l.name}</span>
+                  <span className="text-[15px] text-dim">{l.level}</span>
+                </p>
+              ))}
+              <p>
+                <span className="display block text-[30px]">Cairo</span>
+                <span className="text-[15px] text-dim">Egypt, working with clients worldwide</span>
+              </p>
+            </Rise>
+          </div>
         </div>
       </div>
     </section>

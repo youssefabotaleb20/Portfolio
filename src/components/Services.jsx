@@ -1,59 +1,45 @@
 import { SERVICES } from '../data/skills.js'
-import { PROJECTS, projectName } from '../data/projects.js'
-import Decode from './Decode.jsx'
-import useInView from '../hooks/useInView.js'
-
-const name = (code) => {
-  const p = PROJECTS.find((x) => x.code === code)
-  return p ? projectName(p) : code
-}
+import { byId } from '../data/projects.js'
+import { layerColor } from '../data/layers.js'
+import { Words, Rise } from './Reveal.jsx'
 
 function Row({ s, i }) {
-  const [ref, inView] = useInView({ margin: '0px 0px -10% 0px' })
   return (
-    <li
-      ref={ref}
-      className={`group relative isolate overflow-hidden border-b border-rule transition-[opacity,transform] duration-700 ease-[cubic-bezier(.16,1,.3,1)] ${
-        inView ? 'translate-x-0 opacity-100' : '-translate-x-6 opacity-0'
-      }`}
-      style={{ transitionDelay: `${i * 70}ms` }}
-    >
-      {/* orange sweep on hover */}
-      <span aria-hidden="true" className="absolute inset-0 -z-10 origin-left scale-x-0 bg-cut transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-x-100" />
-      <div className="grid gap-3 px-1 py-7 md:grid-cols-[3rem_minmax(0,4fr)_minmax(0,5fr)_minmax(0,3fr)] md:items-baseline md:gap-8 md:px-4">
-        <span className="mono tabular text-cut transition-colors group-hover:text-ground">{String(i + 1).padStart(2, '0')}</span>
-        <h3 className="font-display text-[clamp(28px,3vw,44px)] font-bold leading-none tracking-[-0.02em] transition-colors group-hover:text-ground">
-          {s.name}
+    <Rise as="li" delay={i * 0.06} className="sweep border-b border-rule" style={{ '--c': layerColor(s.layer) }}>
+      <div className="grid gap-3 px-1 py-7 md:grid-cols-[minmax(0,5fr)_minmax(0,5fr)_minmax(0,4fr)] md:items-baseline md:gap-10 md:px-5 md:py-9">
+        <h3 className="display flex items-center gap-4 text-[clamp(32px,4vw,60px)]">
+          <span className="dot" />{s.name}
         </h3>
-        <p className="text-[16px] leading-relaxed text-ink-2 transition-colors group-hover:text-ground">{s.line}</p>
-        <p className="mono leading-relaxed transition-colors group-hover:text-ground md:text-right">
+        <p className="text-[17px] leading-relaxed text-ink-2">{s.line}</p>
+        <p className="text-[15px] leading-relaxed text-dim md:text-right">
           {s.projects.length ? (
-            <a href="#work" className="text-ink group-hover:text-ground">
-              <span className="text-dim group-hover:text-ground/70">Seen in </span>
-              {s.projects.map(name).join(', ')}
-            </a>
-          ) : (
-            <span className="text-dim group-hover:text-ground/70">Case study in progress</span>
-          )}
+            <>
+              Seen in{' '}
+              {s.projects.map((id, j) => (
+                <span key={id}>
+                  <a href={`#p-${id}`} className="link-u text-ink">{byId(id).name}</a>
+                  {j < s.projects.length - 1 ? ', ' : ''}
+                </span>
+              ))}
+            </>
+          ) : s.pending}
         </p>
       </div>
-    </li>
+    </Rise>
   )
 }
 
 export default function Services() {
   return (
-    <section id="services" className="border-t border-rule bg-ground">
-      <div className="mx-auto max-w-[1600px] px-5 py-24 md:px-8 md:py-32">
-        <div className="grid gap-6 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:items-end">
-          <Decode as="h2" text="What I build" className="block font-display text-[clamp(44px,6vw,88px)] font-extrabold leading-[0.88] tracking-[-0.03em]" />
-          <p className="max-w-[34em] text-[17px] leading-relaxed text-ink-2 md:justify-self-end">
-            One developer from the interface to the server. Each service lists the projects that show it, so you can open
-            the proof before you get in touch.
-          </p>
+    <section id="services" className="relative border-t border-rule bg-night-2">
+      <div className="mx-auto max-w-[1500px] px-5 py-24 md:px-10 md:py-40">
+        <div className="grid gap-6 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] md:items-end">
+          <Words as="h2" text="What I build" className="display h-section block" wordClass={(w, i) => (i === 2 ? 'display-i text-glow' : '')} />
+          <Rise as="p" className="lede max-w-[30em] md:justify-self-end">
+            One developer from the interface to the server. Each service links to the projects that prove it.
+          </Rise>
         </div>
-
-        <ul className="mt-16 border-t border-cut">
+        <ul className="mt-14 border-t border-rule md:mt-20">
           {SERVICES.map((s, i) => <Row key={s.name} s={s} i={i} />)}
         </ul>
       </div>
