@@ -34,7 +34,7 @@ export default function Lightbox({ images, title, onClose }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.25 }}
-      className="fixed inset-0 z-[90] flex flex-col bg-night/95 p-4 md:p-8"
+      className="fixed inset-0 z-[90] flex flex-col bg-night p-4 md:p-8"
       role="dialog"
       aria-modal="true"
       aria-label={`${title} screenshots`}
