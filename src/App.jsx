@@ -1,4 +1,4 @@
-import Toolbar from './components/Toolbar.jsx'
+import Nav from './components/Nav.jsx'
 import Hero from './components/Hero.jsx'
 import Marquee from './components/Marquee.jsx'
 import Work from './components/Work.jsx'
@@ -7,15 +7,17 @@ import Skills from './components/Skills.jsx'
 import About from './components/About.jsx'
 import Contact from './components/Contact.jsx'
 import Footer from './components/Footer.jsx'
+import Cursor from './components/Cursor.jsx'
 
 export default function App() {
   return (
     <>
-      <a href="#work" className="mono sr-only z-[60] bg-ink p-3 text-ground focus:not-sr-only focus:fixed focus:left-4 focus:top-4">
+      <a href="#work" className="sr-only z-[60] rounded-full bg-ink px-5 py-3 text-night focus:not-sr-only focus:fixed focus:left-4 focus:top-4">
         Skip to work
       </a>
-      <Toolbar />
-      <main>
+      <Cursor />
+      <Nav />
+      <main className="relative z-[2]">
         <Hero />
         <Marquee />
         <Work />

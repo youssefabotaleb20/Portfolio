@@ -1,5 +1,5 @@
 // ─── Personal info ────────────────────────────────────────────
-// Single source of truth for everything about Youssef.
+// Single source of truth for everything about Youssef. Mirrors the CV.
 
 const base = import.meta.env.BASE_URL
 
@@ -7,22 +7,33 @@ export const ME = {
   name:      'Youssef Abotaleb',
   firstName: 'Youssef',
   lastName:  'Abotaleb',
-  role:      'Full-stack developer',
-  focus:     'Web, mobile and cloud apps',
+  role:      'Full-stack software developer',
+  focus:     'Web, mobile and cloud applications',
   city:      'Cairo, Egypt',
   photo:     `${base}me.webp`,
   cv:        `${base}Youssef_Abotaleb_CV.pdf`,
 
   intro:
-    'I build web, mobile and cloud applications for clients worldwide: responsive React and Next.js frontends, React Native apps, and Node.js, Python and PHP backends.',
+    'I build web, mobile and cloud applications for clients worldwide, from the first screen to the last deploy.',
 
-  bio: [
-    "I'm a full-stack developer who cares as much about how a product feels as about how it is built. I handle projects end to end, from UI and UX design to the frontend, the backend, the database and the deployment.",
-    'I studied Computer Science and Engineering at the German University in Cairo and hold the IBM Full Stack Software Developer Professional Certificate. I work directly with clients from the first brief to launch.',
+  // The CV's professional summary, in the first person.
+  summary: [
+    'I build responsive frontends with React and Next.js, cross-platform mobile apps with React Native, and backends and APIs with Node.js, Python (Django, FastAPI) and PHP.',
+    'I ship with Docker, Kubernetes, GitHub Actions and Vercel, and add AI features such as chatbots and LLM integrations with the Claude and OpenAI APIs. I care about clean, maintainable, well-tested code.',
   ],
 
-  traits: ['Problem solving', 'Fast learning', 'Attention to detail', 'Teamwork', 'Client communication'],
-  languages: ['Arabic, native', 'English, fluent'],
+  experience: [
+    {
+      title: 'Freelance full-stack developer',
+      scope: 'Web, mobile and cloud',
+      org:   'Self-employed (Upwork, Fiverr, direct clients)',
+      when:  '2024 to present',
+      points: [
+        'Built and launched the corporate website for United Group for Financial Consultations (unitedgroupeg.com) in Arabic and English with React, PHP and MySQL.',
+        'Handled projects end to end, from UI/UX design and React or React Native frontends to Node.js, Python and PHP backends, databases and cloud deployment.',
+      ],
+    },
+  ],
 
   education: [
     {
@@ -32,8 +43,13 @@ export const ME = {
     {
       title: 'IBM Full Stack Software Developer Professional Certificate',
       org:   'IBM via Coursera',
-      note:  'React, Node.js and Express, Python with Flask and Django, Docker, Kubernetes and OpenShift, microservices, serverless, and a full-stack capstone.',
+      note:  'Covered React, Node.js and Express, Python with Flask and Django, Docker, Kubernetes and OpenShift, microservices and serverless, and a full-stack capstone project.',
     },
+  ],
+
+  languages: [
+    { name: 'Arabic', level: 'Native' },
+    { name: 'English', level: 'Fluent' },
   ],
 
   // ─── Contact & social links ────────────────────────────────
