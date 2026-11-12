@@ -87,7 +87,7 @@ export const PROJECTS = [
     thumb: thumb('essence'),
     images: shots('essence', 3),
     liveUrl: 'https://youssefabotaleb20.github.io/essence-ecom/',
-    githubUrl: gh('essence-ecom-'),
+    githubUrl: gh('essence-ecom'),
   },
   {
     id: 'pulsar',
@@ -100,7 +100,7 @@ export const PROJECTS = [
     thumb: thumb('pulsar'),
     images: shots('pulsar', 2),
     liveUrl: 'https://youssefabotaleb20.github.io/pulsar-dashboard/',
-    githubUrl: gh('pulsar-dashboard/'),
+    githubUrl: gh('pulsar-dashboard'),
   },
   {
     id: 'nestly',
@@ -113,7 +113,7 @@ export const PROJECTS = [
     thumb: thumb('nestly'),
     images: shots('nestly', 3),
     liveUrl: 'https://youssefabotaleb20.github.io/nestly-realestate/',
-    githubUrl: gh('nestly-realestate/'),
+    githubUrl: gh('nestly-realestate'),
   },
   {
     id: 'saffron',
@@ -126,7 +126,7 @@ export const PROJECTS = [
     thumb: thumb('saffron'),
     images: shots('saffron', 4),
     liveUrl: 'https://youssefabotaleb20.github.io/saffron-restaurant/',
-    githubUrl: gh('saffron-restaurant/'),
+    githubUrl: gh('saffron-restaurant'),
   },
   {
     id: 'alex',
@@ -139,7 +139,7 @@ export const PROJECTS = [
     thumb: thumb('alex'),
     images: shots('alex', 3),
     liveUrl: 'https://youssefabotaleb20.github.io/alex-portfolio/',
-    githubUrl: gh('alex-portfolio/'),
+    githubUrl: gh('alex-portfolio'),
   },
 ]
 
