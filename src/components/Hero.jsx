@@ -70,7 +70,7 @@ function MobileHero() {
         <button type="button" onClick={() => setActive((a) => (a + 1) % LAYERS.length)} aria-label="Show the next layer of the stack"
           className="relative mt-2 flex h-[224px] flex-none items-center justify-center min-[400px]:h-auto min-[400px]:min-h-[270px] min-[400px]:flex-1">
           <motion.div style={{ y: reduce ? 0 : stackY }}>
-            <Stack progress={scrollYProgress} size={150} gap={26} spread={40} labels="active" active={active} />
+            <Stack progress={scrollYProgress} size={150} gap={34} spread={40} labels="active" active={active} still />
           </motion.div>
         </button>
 
