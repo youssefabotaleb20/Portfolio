@@ -6,7 +6,7 @@ Youssef Abotaleb's personal portfolio: a dark, animated single-page site that pr
 
 ## What is on the page
 
-- **Hero** with the site's signature: the full stack drawn as six floating plates of light (frontend, mobile, backend, AI and data, databases, cloud and DevOps). Scrolling pulls the plates apart; the pointer tilts them.
+- **Hero** with the site's signature: the full stack drawn as six floating plates of light (frontend, mobile, backend, AI and data, databases, cloud and DevOps). Scrolling pulls the plates apart; the pointer tilts them. On phones the same six layers become a horizontal row of cards you can swipe.
 - **Selected work**: ten live projects. The client project and the four full-stack products are full scenes with parallax screenshots; the five front-end concepts sit in a pinned sideways gallery. On phones and tablets every group becomes a tap-to-open index under a sticky Client / Products / Concepts tab bar. Every project has live, code and screenshot buttons.
 - **What I build**: five services, each linked to the projects that prove it.
 - **The full stack**: every skill on the CV, in the CV's own groups.
