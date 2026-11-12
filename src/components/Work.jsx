@@ -6,11 +6,12 @@ import { LAYERS, layerColor } from '../data/layers.js'
 import Lightbox from './Lightbox.jsx'
 import { Words, Rise, EASE } from './Reveal.jsx'
 import useMedia from '../hooks/useMedia.js'
+import WorkMobile from './WorkMobile.jsx'
 
 const GROUPS = [
-  { id: 'client', label: 'Client work', anchor: 'work-client' },
-  { id: 'product', label: 'Full-stack products', anchor: 'work-products' },
-  { id: 'concept', label: 'Front-end concepts', anchor: 'work-concepts' },
+  { id: 'client', label: 'Client work', short: 'Client', anchor: 'work-client' },
+  { id: 'product', label: 'Full-stack products', short: 'Products', anchor: 'work-products' },
+  { id: 'concept', label: 'Front-end concepts', short: 'Concepts', anchor: 'work-concepts' },
 ]
 const list = (group) => PROJECTS.filter((p) => p.group === group)
 
@@ -199,6 +200,9 @@ function Concepts({ items, open }) {
 export default function Work() {
   const [lightbox, setLightbox] = useState(null)
   const featured = [...list('client'), ...list('product')]
+  // Desktop keeps the parallax scenes and pinned gallery; below 1024px the
+  // section switches to the deck and index in WorkMobile.jsx.
+  const desktop = useMedia('(min-width: 1024px)')
 
   // deep links such as #p-quill from the services list
   useEffect(() => {
@@ -213,15 +217,27 @@ export default function Work() {
           <Rise as="p" className="lede max-w-[32em]">
             Ten projects, each one live. The coloured dots show which layers of the stack I built in it.
           </Rise>
-          <Rise delay={0.1} as="nav" aria-label="Jump to a kind of work" className="flex flex-wrap gap-2 md:justify-end">
+          {desktop && <Rise delay={0.1} as="nav" aria-label="Jump to a kind of work" className="flex flex-wrap gap-2 md:justify-end">
             {GROUPS.map((g) => (
               <a key={g.id} href={`#${g.anchor}`} className="btn btn-ghost btn-sm">
                 {g.label} <span className="text-dim">{list(g.id).length}</span>
               </a>
             ))}
-          </Rise>
+          </Rise>}
         </div>
       </div>
+
+      {!desktop && (
+        <WorkMobile
+          featured={featured}
+          concepts={list('concept')}
+          clientCount={list('client').length}
+          groups={GROUPS.map((g) => ({ ...g, count: list(g.id).length }))}
+          open={setLightbox}
+        />
+      )}
+
+      {desktop && <>
 
       <div className="mx-auto max-w-[1500px] overflow-x-clip px-5 md:px-10">
         <span id="work-client" className="block scroll-mt-24" />
@@ -234,6 +250,7 @@ export default function Work() {
       </div>
 
       <Concepts items={list('concept')} open={setLightbox} />
+      </>}
 
       {lightbox && <Lightbox images={lightbox.images} title={lightbox.name} onClose={() => setLightbox(null)} />}
     </section>
