@@ -47,8 +47,8 @@ function MobileHero() {
   return (
     <section id="top" ref={ref} className="relative overflow-hidden">
       <motion.div className="stars" style={{ y: reduce ? 0 : starsY }} />
-      <div className="aura right-[-40%] top-[-12%] h-[110vw] w-[110vw]" style={{ '--c': '#6ee7b7', opacity: 0.22 }} />
-      <div className="aura bottom-[-25%] left-[-45%] h-[110vw] w-[110vw]" style={{ '--c': '#4fd1e8', opacity: 0.14 }} />
+      <div className="aura right-[-40%] top-[-12%] h-[110vw] w-[110vw]" style={{ '--c': '#a98bf0', opacity: 0.45 }} />
+      <div className="aura bottom-[-25%] left-[-45%] h-[110vw] w-[110vw]" style={{ '--c': '#f6c58f', opacity: 0.28 }} />
 
       <div className="relative mx-auto flex min-h-[100svh] max-w-[720px] flex-col px-5 pb-8 pt-[84px]">
         <motion.p {...fade(0.1)} className="flex w-fit items-center gap-2.5 rounded-full border border-rule bg-night/60 px-3.5 py-1.5 text-[13.5px] text-ink-2">
@@ -114,8 +114,8 @@ function DesktopHero() {
     <section id="top" ref={ref} className="relative overflow-hidden">
       <motion.div className="stars" style={{ y: reduce ? 0 : starsY }} />
       <motion.div style={{ y: reduce ? 0 : auraY }} className="pointer-events-none absolute inset-0">
-        <div className="aura right-[-18%] top-[-10%] h-[90vmax] w-[90vmax] lg:right-[-8%]" style={{ '--c': '#6ee7b7', opacity: 0.24 }} />
-        <div className="aura bottom-[-30%] left-[-30%] h-[80vmax] w-[80vmax]" style={{ '--c': '#4fd1e8', opacity: 0.16 }} />
+        <div className="aura right-[-18%] top-[-10%] h-[90vmax] w-[90vmax] lg:right-[-8%]" style={{ '--c': '#a98bf0', opacity: 0.5 }} />
+        <div className="aura bottom-[-30%] left-[-30%] h-[80vmax] w-[80vmax]" style={{ '--c': '#f6c58f', opacity: 0.32 }} />
       </motion.div>
 
       <div className="relative mx-auto grid min-h-[100svh] max-w-[1500px] items-center gap-2 px-5 pb-16 pt-16 md:px-10 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-6 lg:pb-20 lg:pt-28">

@@ -9,7 +9,7 @@ const LINKS = [
   { href: '#about', label: 'About' },
   { href: '#contact', label: 'Contact' },
 ]
-const COLORS = ['#6ee7b7', '#7aa2ff', '#e9d16f', '#f4a261', '#c8d1cc']
+const COLORS = ['#f6c58f', '#e283b4', '#a98bf0', '#6fa3f7', '#6fd6cf']
 
 export default function Nav() {
   const [open, setOpen] = useState(false)
@@ -61,7 +61,7 @@ export default function Nav() {
             <span className={`absolute h-[2px] w-6 rounded bg-ink transition-transform duration-300 ${open ? '-rotate-45' : 'translate-y-[5px]'}`} />
           </button>
         </div>
-        <motion.div style={{ scaleX: scrollYProgress, background: 'linear-gradient(90deg,#6ee7b7,#4fd1e8,#7aa2ff,#e9d16f,#f4a261,#c8d1cc)' }} className="h-[2px] origin-left" aria-hidden="true" />
+        <motion.div style={{ scaleX: scrollYProgress, background: 'linear-gradient(90deg,#f6c58f,#f39c8c,#e283b4,#a98bf0,#6fa3f7,#6fd6cf)' }} className="h-[2px] origin-left" aria-hidden="true" />
       </div>
 
       <AnimatePresence>

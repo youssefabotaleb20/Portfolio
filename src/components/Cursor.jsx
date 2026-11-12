@@ -17,5 +17,5 @@ export default function Cursor() {
   }, [fine, x, y])
 
   if (!fine) return null
-  return <motion.div aria-hidden="true" style={{ x: sx, y: sy, '--c': '#6ee7b7' }} className="aura fixed left-0 top-0 z-[1] h-[600px] w-[600px] opacity-[0.22]" />
+  return <motion.div aria-hidden="true" style={{ x: sx, y: sy, '--c': '#f6c58f' }} className="aura fixed left-0 top-0 z-[1] h-[600px] w-[600px] opacity-[0.22]" />
 }

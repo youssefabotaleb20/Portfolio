@@ -19,8 +19,8 @@ export default function About() {
         <div className="mt-14 grid gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
           {/* portrait between two drifting plates of light */}
           <div ref={ref} className="relative mx-auto w-full max-w-[400px] px-6 lg:mx-0 lg:px-8">
-            <motion.span aria-hidden="true" style={{ y: reduce ? 0 : plateA, '--c': '#4fd1e8' }} className="absolute -right-0 top-10 h-[72%] w-[62%] rounded-[28px] border border-[color-mix(in_oklab,var(--c)_60%,transparent)] bg-[color-mix(in_oklab,var(--c)_10%,transparent)]" />
-            <motion.span aria-hidden="true" style={{ y: reduce ? 0 : plateB, '--c': '#6ee7b7' }} className="absolute bottom-6 left-0 h-[60%] w-[58%] rounded-[28px] border border-[color-mix(in_oklab,var(--c)_60%,transparent)] bg-[color-mix(in_oklab,var(--c)_8%,transparent)]" />
+            <motion.span aria-hidden="true" style={{ y: reduce ? 0 : plateA, '--c': '#a98bf0' }} className="absolute -right-0 top-10 h-[72%] w-[62%] rounded-[28px] border border-[color-mix(in_oklab,var(--c)_60%,transparent)] bg-[color-mix(in_oklab,var(--c)_10%,transparent)]" />
+            <motion.span aria-hidden="true" style={{ y: reduce ? 0 : plateB, '--c': '#f6c58f' }} className="absolute bottom-6 left-0 h-[60%] w-[58%] rounded-[28px] border border-[color-mix(in_oklab,var(--c)_60%,transparent)] bg-[color-mix(in_oklab,var(--c)_8%,transparent)]" />
             <motion.div
               className="relative overflow-hidden rounded-[28px] border border-rule"
               initial={reduce ? false : { clipPath: 'inset(100% 0 0 0 round 28px)' }}
