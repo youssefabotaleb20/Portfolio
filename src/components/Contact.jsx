@@ -65,17 +65,17 @@ export default function Contact() {
             <h3 className="display text-[clamp(30px,3vw,44px)]">Hiring for a project?</h3>
             <p className="mt-3 text-ink-2">Book me on a platform with milestone payments, or email the brief.</p>
             <div className="mt-7 border-t border-rule">
-              <Row href={ME.upwork} icon={SiUpwork} label="Upwork" note="Hire with milestones" color="#6fd6cf" />
-              <Row href={ME.fiverr} icon={SiFiverr} label="Fiverr" note="Fixed-price gigs" color="#f6c58f" />
+              <Row href={ME.upwork} icon={SiUpwork} label="Upwork" note="Hire with milestones" color="#c8d1cc" />
+              <Row href={ME.fiverr} icon={SiFiverr} label="Fiverr" note="Fixed-price gigs" color="#6ee7b7" />
             </div>
           </Rise>
           <Rise delay={0.1} className="rounded-[28px] border border-rule bg-night-2/90 p-6 md:p-10">
             <h3 className="display text-[clamp(30px,3vw,44px)]">Recruiting?</h3>
             <p className="mt-3 text-ink-2">Everything for a hiring decision: the CV, my profile and the code.</p>
             <div className="mt-7 border-t border-rule">
-              <Row href={ME.cv} icon={FiDownload} label="Download CV" note="PDF" download color="#e283b4" />
-              <Row href={ME.linkedin} icon={FaLinkedinIn} label="LinkedIn" note="Profile" color="#6fa3f7" />
-              <Row href={ME.github} icon={SiGithub} label="GitHub" note="Code" color="#a98bf0" />
+              <Row href={ME.cv} icon={FiDownload} label="Download CV" note="PDF" download color="#7aa2ff" />
+              <Row href={ME.linkedin} icon={FaLinkedinIn} label="LinkedIn" note="Profile" color="#f4a261" />
+              <Row href={ME.github} icon={SiGithub} label="GitHub" note="Code" color="#e9d16f" />
             </div>
           </Rise>
         </div>

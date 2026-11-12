@@ -7,14 +7,14 @@
    Six plates (frontend to cloud) float in depth; each owns one hue, and
    every project and skill borrows the hue of the layer it belongs to. */
 @theme {
-  --color-night: #07080d;
-  --color-night-2: #0c0d15;
-  --color-plate: #12131d;
+  --color-night: #0a0c0b;
+  --color-night-2: #101312;
+  --color-plate: #141817;
   --color-ink: #f3eee6;
   --color-ink-2: #c5c1cc;
   --color-dim: #8a8798;
   --color-rule: rgb(243 238 230 / 0.1);
-  --color-glow: #f6c58f;
+  --color-glow: #6ee7b7;
   --font-display: "Fraunces Variable", "Iowan Old Style", Georgia, serif;
   --font-body: "Geist Variable", system-ui, sans-serif;
 }
@@ -42,7 +42,7 @@ body { margin: 0; background: var(--color-night); overflow-x: clip; }
 ::selection { background: var(--color-glow); color: var(--color-night); }
 :focus-visible { outline: 2px solid var(--color-glow); outline-offset: 3px; border-radius: 4px; }
 
-html { scrollbar-color: #2b2c3a var(--color-night); scrollbar-width: thin; }
+html { scrollbar-color: #2a302e var(--color-night); scrollbar-width: thin; }
 
 /* ── Type ───────────────────────────────────────────── */
 .display {
@@ -105,11 +105,11 @@ html { scrollbar-color: #2b2c3a var(--color-night); scrollbar-width: thin; }
   background-image:
     radial-gradient(1px 1px at 12% 18%, #fff 50%, transparent 51%),
     radial-gradient(1px 1px at 78% 8%, #fff 50%, transparent 51%),
-    radial-gradient(1.5px 1.5px at 34% 62%, #f6c58f 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 34% 62%, #6ee7b7 50%, transparent 51%),
     radial-gradient(1px 1px at 58% 38%, #fff 50%, transparent 51%),
-    radial-gradient(1.5px 1.5px at 88% 72%, #a98bf0 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 88% 72%, #e9d16f 50%, transparent 51%),
     radial-gradient(1px 1px at 22% 86%, #fff 50%, transparent 51%),
-    radial-gradient(1px 1px at 66% 90%, #6fd6cf 50%, transparent 51%),
+    radial-gradient(1px 1px at 66% 90%, #c8d1cc 50%, transparent 51%),
     radial-gradient(1px 1px at 46% 12%, #fff 50%, transparent 51%);
   background-size: 620px 620px;
 }
@@ -121,7 +121,7 @@ html { scrollbar-color: #2b2c3a var(--color-night); scrollbar-width: thin; }
   position: absolute; inset: 0; border-radius: 26px;
   border: 1px solid color-mix(in oklab, var(--c) 62%, transparent);
   background:
-    linear-gradient(140deg, color-mix(in oklab, var(--c) 26%, #0b0c13) 0%, color-mix(in oklab, var(--c) 7%, #0b0c13) 62%);
+    linear-gradient(140deg, color-mix(in oklab, var(--c) 26%, #0d100f) 0%, color-mix(in oklab, var(--c) 7%, #0d100f) 62%);
   color: var(--c);
   box-shadow: 0 0 0 1px rgb(0 0 0 / 0.5), inset 0 1px 0 color-mix(in oklab, var(--c) 55%, transparent);
   opacity: 0.94;
