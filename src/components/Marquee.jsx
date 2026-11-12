@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion
 
 const A = ['React', 'Next.js', 'React Native', 'TypeScript', 'Node.js', 'Express', 'Python', 'Django', 'FastAPI', 'PHP']
 const B = ['MongoDB', 'MySQL', 'Docker', 'Kubernetes', 'GitHub Actions', 'Vercel', 'Claude API', 'OpenAI API', 'Stripe', 'Playwright']
-const COLORS = ['#6ee7b7', '#4fd1e8', '#7aa2ff', '#e9d16f', '#f4a261', '#c8d1cc']
+const COLORS = ['#f6c58f', '#f39c8c', '#e283b4', '#a98bf0', '#6fa3f7', '#6fd6cf']
 
 function Row({ items, rev, offset }) {
   const row = items.map((t, i) => (
