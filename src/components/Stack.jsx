@@ -3,7 +3,7 @@ import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } fro
 import { LAYERS } from '../data/layers.js'
 
 // One small line drawing per layer, drawn in the layer's colour.
-const MOTIFS = {
+export const MOTIFS = {
   frontend: (
     <g fill="none" stroke="currentColor" strokeWidth="1.4">
       <rect x="44" y="40" width="152" height="104" rx="10" />

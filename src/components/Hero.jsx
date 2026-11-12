@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { FiArrowDownRight, FiDownload } from 'react-icons/fi'
 import { ME } from '../data/me.js'
 import { LAYERS } from '../data/layers.js'
 import Stack from './Stack.jsx'
+import LayerTrack from './LayerTrack.jsx'
 import Magnetic from './Magnetic.jsx'
 import useMedia from '../hooks/useMedia.js'
 import { EASE } from './Reveal.jsx'
@@ -27,29 +28,21 @@ function Letters({ text, delay, className = '' }) {
   )
 }
 
-/* Phones and tablets: one screen with the stack as a lit emblem that steps
-   through the six layers, the name, one line on what I do, and both buttons
+/* Phones and tablets: one screen with the six layers as a horizontal track
+   that slides along on its own, the name, one line on what I do, and both buttons
    above the fold. Nothing fades out while you are still reading it. */
 function MobileHero() {
   const ref = useRef(null)
   const reduce = useReducedMotion()
   const [active, setActive] = useState(0)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const stackY = useTransform(scrollYProgress, [0, 1], [0, 90])
   const starsY = useTransform(scrollYProgress, [0, 1], ['0%', '14%'])
-
-  useEffect(() => {
-    if (reduce) return
-    const t = setInterval(() => setActive((a) => (a + 1) % LAYERS.length), 1900)
-    return () => clearInterval(t)
-  }, [reduce])
 
   const fade = (delay) => ({
     initial: reduce ? false : { opacity: 0, y: 18 },
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.9, ease: EASE, delay },
   })
-  const layer = LAYERS[active]
 
   return (
     <section id="top" ref={ref} className="relative overflow-hidden">
@@ -66,24 +59,12 @@ function MobileHero() {
           Available for work · {ME.city}
         </motion.p>
 
-        {/* the stack, lighting up one layer at a time; tap to step through */}
-        <button type="button" onClick={() => setActive((a) => (a + 1) % LAYERS.length)} aria-label="Show the next layer of the stack"
-          className="relative mt-2 flex h-[224px] flex-none items-center justify-center min-[400px]:h-auto min-[400px]:min-h-[270px] min-[400px]:flex-1">
-          <motion.div style={{ y: reduce ? 0 : stackY }}>
-            <Stack progress={scrollYProgress} size={150} gap={34} spread={40} labels="active" active={active} still />
-          </motion.div>
-        </button>
-
-        <motion.div {...fade(0.3)} className="-mt-2 flex items-center gap-3 text-[14px]" aria-live="polite">
-          <span className="tabular-nums text-dim">{String(active + 1).padStart(2, '0')} / {String(LAYERS.length).padStart(2, '0')}</span>
-          <span className="h-px w-8" style={{ background: layer.color }} />
-          <motion.span key={layer.id} initial={reduce ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: EASE }}
-            className="font-medium" style={{ color: layer.color }}>
-            {layer.name}
-          </motion.span>
+        {/* the six layers as a horizontal track; swipe or tap to move along */}
+        <motion.div {...fade(0.2)} className="relative -mx-5 mt-5 flex-none overflow-hidden min-[400px]:my-auto min-[400px]:pt-4" aria-live="polite">
+          <LayerTrack active={active} setActive={setActive} />
         </motion.div>
 
-        <h1 className="display mt-4 text-[clamp(54px,15.500vw,92px)]" aria-label={ME.name}>
+        <h1 className="display mt-6 text-[clamp(54px,15.500vw,92px)]" aria-label={ME.name}>
           <Letters text={ME.firstName} delay={0.35} />
           <Letters text={ME.lastName} delay={0.55} className="display-i text-glow" />
         </h1>
