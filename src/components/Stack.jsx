@@ -54,7 +54,7 @@ const MOTIFS = {
 /* The signature: six plates floating in depth. `progress` (0..1, a motion
    value) pulls them apart; the pointer tilts the whole rig. Only transforms
    and opacity move, so it stays cheap on phones. */
-export default function Stack({ progress, size = 320, gap = 46, spread = 86, interactive = true, className = '' }) {
+export default function Stack({ progress, size = 320, gap = 46, spread = 86, interactive = true, labels = true, active = -1, className = '' }) {
   const reduce = useReducedMotion()
   const px = useMotionValue(0)
   const py = useMotionValue(0)
@@ -78,14 +78,15 @@ export default function Stack({ progress, size = 320, gap = 46, spread = 86, int
     <div className={`stack-scene ${className}`} aria-hidden="true">
       <motion.div className="stack-rig relative mx-auto" style={{ width: size, height: size, rotateX, rotateZ }}>
         {LAYERS.map((l, i) => (
-          <Plate key={l.id} layer={l} index={i} progress={progress} gap={gap} spread={spread} reduce={reduce} />
+          <Plate key={l.id} layer={l} index={i} progress={progress} gap={gap} spread={spread} reduce={reduce} labels={labels} active={active} />
         ))}
       </motion.div>
     </div>
   )
 }
 
-function Plate({ layer, index, progress, gap, spread, reduce }) {
+// `active` (phones): that plate lifts and stays lit while the others dim.
+function Plate({ layer, index, progress, gap, spread, reduce, labels, active }) {
   const n = LAYERS.length
   const level = (n - 1) / 2 - index // top plate is the frontend
   const z = useTransform(progress, (p) => level * (gap + p * spread))
@@ -97,12 +98,18 @@ function Plate({ layer, index, progress, gap, spread, reduce }) {
         animate={{ z: 0, opacity: 1 }}
         transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.25 + (n - 1 - index) * 0.13 }}
       >
-        <div className="plate-float" style={{ animationDelay: `${-index * 1.1}s` }}>
-          <div className="plate">
-            <svg viewBox="0 0 240 190" preserveAspectRatio="xMidYMid meet">{MOTIFS[layer.id]}</svg>
-            <span className="plate-name">{layer.name}</span>
+        <motion.div
+          className="absolute inset-0"
+          animate={active < 0 ? { opacity: 1, z: 0 } : { opacity: active === index ? 1 : 0.5, z: active === index ? 18 : 0 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <div className="plate-float" style={{ animationDelay: `${-index * 1.1}s` }}>
+            <div className="plate">
+              <svg viewBox="0 0 240 190" preserveAspectRatio="xMidYMid meet">{MOTIFS[layer.id]}</svg>
+              {(labels === true || (labels === 'active' && active === index)) && <span className="plate-name">{layer.name}</span>}
+            </div>
           </div>
-        </div>
+        </motion.div>
       </motion.div>
     </motion.div>
   )

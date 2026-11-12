@@ -17,14 +17,14 @@ src/data/*.js  ──►  React components  ──►  vite build  ──►  di
 |---|---|
 | `App.jsx` | Page order: Nav, Hero, Marquee, Work, Services, Skills, About, Contact, Footer |
 | `Nav.jsx` | Fixed header, active-section pill, scroll progress line, full-screen phone menu |
-| `Hero.jsx` | Name, intro, calls to action and the parallax layers around the stack |
+| `Hero.jsx` | Desktop: name, intro, calls to action and the parallax layers around the stack. Below 1024px: `MobileHero` (see below) |
 | `Stack.jsx` | The six 3D plates. Takes a scroll progress value and spreads the plates with it |
 | `Marquee.jsx` | Two bands of tech names that also slide with scroll |
 | `Work.jsx` | Desktop (1024px and up): project scenes (`Scene`), the sideways concept gallery (`Concepts`) and the lightbox trigger. Below 1024px it renders `WorkMobile` instead |
-| `WorkMobile.jsx` | Phones and tablets: sticky tab bar (Client, Products, Concepts), the stacking card deck for client work and products, and the tap-to-open concept index |
+| `WorkMobile.jsx` | Phones and tablets: sticky tab bar (Client, Products, Concepts) and a tap-to-open index for each group |
 | `Lightbox.jsx` | Full-screen screenshots with keyboard, buttons and swipe |
 | `Services.jsx` | Services with links to the projects that prove them |
-| `Skills.jsx` | CV skill groups with a sticky live index on desktop |
+| `Skills.jsx` | CV skill groups with a sticky live index on desktop; a tap-to-open list (`MobileSkills`) below 1024px |
 | `About.jsx` | Portrait, summary, experience, education, languages |
 | `Contact.jsx` | Email, copy button, client and recruiter links |
 | `Reveal.jsx` | Shared entrance animations: `Words` (masked word rise) and `Rise` (fade up) |
@@ -51,12 +51,12 @@ GitHub Pages, deployed by `.github/workflows/deploy.yml` on every push to `main`
 - **Static site on GitHub Pages.** A portfolio needs no server, and Pages is free with no card on file.
 - **Only `transform` and `opacity` are animated.** An earlier version of the site felt laggy on scroll. This one has no blur filters, no backdrop filters, no canvas and no WebGL; glows are plain radial gradients. Compositor-only properties keep scrolling smooth on phones.
 - **No scroll hijacking.** The page uses the browser's native scroll, so it feels the same as every other site on the visitor's device. Motion is mapped to scroll position, never the other way round.
-- **Phones get their own layout, not a cut-down one.** The stack opens the page and the menu opens as a full-screen reveal. Below 1024px the work section switches to `WorkMobile.jsx`:
-  - A sticky tab bar under the nav shows Client, Products and Concepts, highlights the group you are in and carries a progress line.
-  - Client work and products are a deck of cards. Each card is `position: sticky` and the next one slides over it, while the cards underneath scale down and dim (transform and opacity, driven by scroll progress). A card taller than the space under the bar sticks by its bottom edge instead, so nothing is covered before it is read. Tapping the screenshot opens the lightbox.
-  - Front-end concepts are an index: one row per demo with a number, name and thumbnail; tapping a row opens it in place with the screenshot, stack and buttons. The first row starts open, and `#p-<id>` links open their row.
-  - Why: the earlier phone layout put the concepts in a sideways swipe row, which did not scroll on Youssef's phone (2026-11-12). Nothing on a phone now depends on swiping sideways, and the deck shows each project one at a time at full width.
-  - The index rows open with a `grid-template-rows` transition, the one layout animation on the site. It only touches a small block, so it stays smooth.
+- **Phones get their own layout, not a cut-down one.** Below 1024px the hero, the work section and the skills section each render a phone version. The menu opens as a full-screen reveal.
+  - **Hero (`MobileHero` in `Hero.jsx`)** fits one screen. An availability pill sits on top, then the stack as an emblem that lights one layer at a time (every 1.9 s, or on tap) with the layer's name beneath it, then the name, one line about the work, and the Hire me and CV buttons above the fold. Plate labels show only on the lit plate, because six labels on a 150px stack overlapped. Unlike desktop, the text never fades on scroll, since on a phone you are still reading it.
+  - **Work (`WorkMobile.jsx`)** has a sticky Client / Products / Concepts tab bar under the nav that follows the scroll and carries a progress line. Every group is an index: one row per project with a number, the name, a one-line summary and a thumbnail. Tapping a row opens it in place with the screenshot, layers, stack, note and buttons. Each group has its first row open, and `#p-<id>` links from the services list open their row.
+  - **Skills (`MobileSkills` in `Skills.jsx`)** shows the nine CV groups as rows with a count and a three-skill preview, and tapping a row opens all its chips. Without this it was a wall of about 90 chips across six screens.
+  - Why (2026-11-12): the first phone layout had a sideways swipe row for the concepts, which didn't scroll on Youssef's phone. A stacking card deck for the products came next and felt cluttered, so the projects now use the same index pattern as the concepts. He liked that pattern, and it keeps the page short.
+  - Index rows open with a `grid-template-rows` transition, the one layout animation on the site. It only touches a small block, so it stays smooth.
 - **Content mirrors the CV.** Skill groups, project summaries, experience and education use the CV's wording and order, so a recruiter reading both sees the same story. The data files are the only place to edit.
 - **Colour carries meaning.** Six layer colours, one per part of the stack, instead of a single accent. A visitor can see at a glance which layers a project covers.
 - **Self-hosted variable fonts.** Fraunces (display) and Geist (text) come from Fontsource packages, so there is no request to a third-party font server.

@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { FiArrowDownRight, FiDownload } from 'react-icons/fi'
 import { ME } from '../data/me.js'
@@ -27,9 +27,92 @@ function Letters({ text, delay, className = '' }) {
   )
 }
 
-export default function Hero() {
+/* Phones and tablets: one screen with the stack as a lit emblem that steps
+   through the six layers, the name, one line on what I do, and both buttons
+   above the fold. Nothing fades out while you are still reading it. */
+function MobileHero() {
   const ref = useRef(null)
+  const reduce = useReducedMotion()
+  const [active, setActive] = useState(0)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
+  const stackY = useTransform(scrollYProgress, [0, 1], [0, 90])
+  const starsY = useTransform(scrollYProgress, [0, 1], ['0%', '14%'])
+
+  useEffect(() => {
+    if (reduce) return
+    const t = setInterval(() => setActive((a) => (a + 1) % LAYERS.length), 1900)
+    return () => clearInterval(t)
+  }, [reduce])
+
+  const fade = (delay) => ({
+    initial: reduce ? false : { opacity: 0, y: 18 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.9, ease: EASE, delay },
+  })
+  const layer = LAYERS[active]
+
+  return (
+    <section id="top" ref={ref} className="relative overflow-hidden">
+      <motion.div className="stars" style={{ y: reduce ? 0 : starsY }} />
+      <div className="aura right-[-40%] top-[-12%] h-[110vw] w-[110vw]" style={{ '--c': '#a98bf0', opacity: 0.45 }} />
+      <div className="aura bottom-[-25%] left-[-45%] h-[110vw] w-[110vw]" style={{ '--c': '#f6c58f', opacity: 0.28 }} />
+
+      <div className="relative mx-auto flex min-h-[100svh] max-w-[720px] flex-col px-5 pb-8 pt-[84px]">
+        <motion.p {...fade(0.1)} className="flex w-fit items-center gap-2.5 rounded-full border border-rule bg-night/60 px-3.5 py-1.5 text-[13.5px] text-ink-2">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-glow opacity-60 motion-reduce:hidden" />
+            <span className="relative h-2 w-2 rounded-full bg-glow" />
+          </span>
+          Available for work · {ME.city}
+        </motion.p>
+
+        {/* the stack, lighting up one layer at a time; tap to step through */}
+        <button type="button" onClick={() => setActive((a) => (a + 1) % LAYERS.length)} aria-label="Show the next layer of the stack"
+          className="relative mt-2 flex h-[224px] flex-none items-center justify-center min-[400px]:h-auto min-[400px]:min-h-[270px] min-[400px]:flex-1">
+          <motion.div style={{ y: reduce ? 0 : stackY }}>
+            <Stack progress={scrollYProgress} size={150} gap={26} spread={40} labels="active" active={active} />
+          </motion.div>
+        </button>
+
+        <motion.div {...fade(0.3)} className="-mt-2 flex items-center gap-3 text-[14px]" aria-live="polite">
+          <span className="tabular-nums text-dim">{String(active + 1).padStart(2, '0')} / {String(LAYERS.length).padStart(2, '0')}</span>
+          <span className="h-px w-8" style={{ background: layer.color }} />
+          <motion.span key={layer.id} initial={reduce ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: EASE }}
+            className="font-medium" style={{ color: layer.color }}>
+            {layer.name}
+          </motion.span>
+        </motion.div>
+
+        <h1 className="display mt-4 text-[clamp(54px,15.500vw,92px)]" aria-label={ME.name}>
+          <Letters text={ME.firstName} delay={0.35} />
+          <Letters text={ME.lastName} delay={0.55} className="display-i text-glow" />
+        </h1>
+
+        <motion.p {...fade(1)} className="mt-4 text-[17px] leading-relaxed text-ink-2">
+          {ME.role}. I build web, mobile and cloud apps, from the first screen to the last deploy.
+        </motion.p>
+
+        <motion.div {...fade(1.15)} className="mt-6 grid grid-cols-2 gap-3">
+          <a href="#contact" className="btn btn-solid w-full">Hire me <FiArrowDownRight /></a>
+          <a href={ME.cv} download className="btn btn-ghost w-full">CV <FiDownload /></a>
+        </motion.div>
+        <motion.p {...fade(1.3)} className="small mt-4">
+          Also on <a className="link-u text-ink-2" href={ME.upwork} target="_blank" rel="noopener noreferrer">Upwork</a> and{' '}
+          <a className="link-u text-ink-2" href={ME.fiverr} target="_blank" rel="noopener noreferrer">Fiverr</a>.
+        </motion.p>
+      </div>
+    </section>
+  )
+}
+
+export default function Hero() {
   const wide = useMedia('(min-width: 1024px)')
+  return wide ? <DesktopHero /> : <MobileHero />
+}
+
+function DesktopHero() {
+  const ref = useRef(null)
+  const wide = true
   const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
 

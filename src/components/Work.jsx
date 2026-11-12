@@ -201,7 +201,7 @@ export default function Work() {
   const [lightbox, setLightbox] = useState(null)
   const featured = [...list('client'), ...list('product')]
   // Desktop keeps the parallax scenes and pinned gallery; below 1024px the
-  // section switches to the deck and index in WorkMobile.jsx.
+  // section switches to the tap-to-open indexes in WorkMobile.jsx.
   const desktop = useMedia('(min-width: 1024px)')
 
   // deep links such as #p-quill from the services list
@@ -229,9 +229,9 @@ export default function Work() {
 
       {!desktop && (
         <WorkMobile
-          featured={featured}
+          clients={list('client')}
+          products={list('product')}
           concepts={list('concept')}
-          clientCount={list('client').length}
           groups={GROUPS.map((g) => ({ ...g, count: list(g.id).length }))}
           open={setLightbox}
         />
